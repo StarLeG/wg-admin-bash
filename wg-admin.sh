@@ -396,12 +396,24 @@ extract_peer_block() {
   ' "${WG_CONF}"
 }
 
-# peer_field — значение поля внутри блока пира (учитывая закомментированные строки)
+# peer_field — значение поля внутри блока пира (учитывая закомментированные строки);
+# поддерживает форматы «Key = value» и «# EXPIRES value»
 peer_field() {
   local name="$1" field="$2"
   extract_peer_block "${name}" | awk -v f="${field}" '
-    $0 ~ "^[# ]*[A-Za-z]*" f "[[:space:]]*=" {
-      sub(/^[# ]*/, ""); sub(/^[^=]*=[[:space:]]*/, ""); print; exit
+    {
+      line = $0
+      sub(/^[# ]+/, "", line)
+      if (line ~ ("^" f "[[:space:]]*=")) {
+        sub(/^[^=]*=[[:space:]]*/, "", line)
+        print line
+        exit
+      }
+      if (line ~ ("^" f "[[:space:]]+[0-9]+$")) {
+        sub(/^[^[:space:]]+[[:space:]]+/, "", line)
+        print line
+        exit
+      }
     }
   '
 }
@@ -3266,7 +3278,10 @@ main() {
   main_menu
 }
 
-main "$@"
+# Запуск только при прямом вызове (не при source — для тестов)
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+  main "$@"
+fi
 
 # ==================== ИСПОЛЬЗОВАНИЕ ====================
 #

@@ -2,16 +2,21 @@
 
 ## What this repo is
 
-`wg-admin.sh` — interactive bash admin CLI for a WireGuard Hub-and-Spoke server
-(6 PCs, one hub) on Debian/Ubuntu. Implemented from the spec; `VERSION="..."` in
-the script is the single version source (SemVer).
+WireGuard Hub-and-Spoke admin CLI (6 PCs, one hub), two ports:
+
+| File | Target | Version constant |
+|---|---|---|
+| `wg-admin.sh` | Debian/Ubuntu, root | `VERSION="..."` |
+| `wg-admin.ps1` | Windows 10/11/Server, Administrator | `$script:AppVersion` |
+
+SemVer, single version source per script. Spec in gitignored `ТЗ.md` (local only).
 
 ## Source of truth
 
 `ТЗ.md` (Russian) is the complete spec: menu tree, add-client dialog, expiry
 semantics, target file structure, style rules, acceptance checklist. Read it before
 coding. Implement every function fully — no stubs, no `# ... остальной код ...`
-placeholders. The deliverable is one complete bash file.
+placeholders. Each port is one self-contained script file.
 
 `ТЗ.md` is gitignored (private spec) — present in the local workspace only. A
 fresh clone won't have it; ask the user to supply it rather than guessing.
@@ -31,6 +36,7 @@ wsl -d Ubuntu-24.04 -- shellcheck /mnt/d/VPN/wg-admin.sh
 - Runtime acceptance (init server, add clients, expiry) needs a root Debian/Ubuntu
   box and cannot be exercised from this workspace. `bash -n` + clean `shellcheck`
   is the achievable local gate.
+- PowerShell tests: `powershell -NoProfile -ExecutionPolicy Bypass -File test-wg-admin.ps1`
 - Test suite (root in WSL, isolates paths under `mktemp -d`):
   `wsl -d Ubuntu-24.04 -u root -- bash /mnt/d/VPN/test-wg-admin.sh`
 - Live menu smoke (writes real `/etc/wireguard` in WSL):
@@ -40,7 +46,21 @@ wsl -d Ubuntu-24.04 -- shellcheck /mnt/d/VPN/wg-admin.sh
   `printf '\n'` via `wsl bash -c '...'` from PowerShell eats backslashes — put
   scripted input in a file instead.
 
-## Constraints agents get wrong
+## PowerShell port (`wg-admin.ps1`) gotchas
+
+- **UTF-8 BOM is mandatory** for `.ps1` with Russian text. The Edit tool writes
+  UTF-8 without BOM; PowerShell 5.1 then reads it as ANSI (mojibake + parse
+  errors). After editing, re-add BOM:
+  `[IO.File]::WriteAllText($p, [IO.File]::ReadAllText($p, [Text.Encoding]::UTF8), (New-Object Text.UTF8Encoding $true))`
+- PS 5.1 only: no `&&`/`||` pipeline chains, no ternary. Keep 5.1-compatible.
+- Never nest double quotes inside `"$(...)"` — use `$(t 'ru' 'en')` or concat.
+- `$name: text` inside double quotes is parsed as drive scope — write `${name}:`.
+- `[switch]$Version` param collides with `$script:Version` — version lives in
+  `$script:AppVersion`.
+- Configs in `C:\ProgramData\wg-admin\`; tunnel via `wireguard.exe /installtunnelservice`.
+- Dot-source guard (`$MyInvocation.InvocationName -ne '.'`) lets tests load functions.
+
+## Constraints agents get wrong (bash)
 
 - Never `set -e` in this script (kills interactive menus); `set -o pipefail` only.
 - Re-apply config with `wg syncconf "${WG_IF}" <(wg-quick strip "${WG_IF}")` —

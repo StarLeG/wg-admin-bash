@@ -2,7 +2,7 @@
 
 ## What this repo is
 
-WireGuard Hub-and-Spoke admin CLI (6 PCs, one hub), two ports:
+WireGuard Hub-and-Spoke admin CLI (one hub, many spokes), two ports:
 
 | File | Target | Version constant |
 |---|---|---|

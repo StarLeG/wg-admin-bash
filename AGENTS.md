@@ -2,8 +2,9 @@
 
 ## What this repo is
 
-Greenfield project: deliver `wg-admin.sh` — an interactive bash admin CLI for a
-WireGuard Hub-and-Spoke server (6 PCs, one hub) on Debian/Ubuntu. No code exists yet.
+`wg-admin.sh` — interactive bash admin CLI for a WireGuard Hub-and-Spoke server
+(6 PCs, one hub) on Debian/Ubuntu. Implemented from the spec; `VERSION="..."` in
+the script is the single version source (SemVer).
 
 ## Source of truth
 

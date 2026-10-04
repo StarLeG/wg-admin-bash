@@ -31,6 +31,14 @@ wsl -d Ubuntu-24.04 -- shellcheck /mnt/d/VPN/wg-admin.sh
 - Runtime acceptance (init server, add clients, expiry) needs a root Debian/Ubuntu
   box and cannot be exercised from this workspace. `bash -n` + clean `shellcheck`
   is the achievable local gate.
+- Test suite (root in WSL, isolates paths under `mktemp -d`):
+  `wsl -d Ubuntu-24.04 -u root -- bash /mnt/d/VPN/test-wg-admin.sh`
+- Live menu smoke (writes real `/etc/wireguard` in WSL):
+  `wsl -d Ubuntu-24.04 -u root -- bash /mnt/d/VPN/live-smoke.sh`
+- Piping menu input: `read -p` shows prompts only on a tty; `pause` after every
+  menu action consumes one line — account for it when scripting input. Also,
+  `printf '\n'` via `wsl bash -c '...'` from PowerShell eats backslashes — put
+  scripted input in a file instead.
 
 ## Constraints agents get wrong
 

@@ -2343,6 +2343,12 @@ function Show-AboutMenu {
             '2' {
                 Write-Host '  wg-admin.ps1 — WireGuard admin (Hub-and-Spoke) for Windows'
                 Write-Host '  https://github.com/StarLeG/wg-admin-bash'
+                Write-Host '  Author: ИП Старинский Олег Григорьевич'
+                Write-Host '  UNP: 391567102'
+                Write-Host '  Site: https://electroman.by/'
+                Write-Host '  Telegram: https://t.me/electroman_industry'
+                Write-Host '  E-mail: info@electroman.by'
+                Write-Host '  Phone: +375 (29) 714-28-82'
             }
             '3' { Write-Host '  MIT License' }
             '4' {

@@ -579,6 +579,23 @@ powershell -NoProfile -Command "$e=$null; [System.Management.Automation.PSParser
 
 ---
 
+## Автор
+
+**ИП Старинский Олег Григорьевич**  
+УНП 391567102
+
+| | |
+|---|---|
+| Сайт | [electroman.by](https://electroman.by/) |
+| GitHub | [StarLeG](https://github.com/StarLeG) |
+| Telegram | [@electroman_industry](https://t.me/electroman_industry) |
+| E-mail | [info@electroman.by](mailto:info@electroman.by) |
+| Телефон | +375 (29) 714-28-82 |
+
+Вопросы, предложения и отчёты об ошибках — в Telegram или на e-mail.
+Автор также разрабатывает бесплатный инструментарий
+[ModbusToolkit](https://modbustoolkit.electroman.by/) для инженеров-наладчиков.
+
 ## Лицензия
 
 MIT

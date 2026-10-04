@@ -2858,6 +2858,12 @@ about_menu() {
       2)
         printf '  wg-admin.sh — WireGuard admin (Hub-and-Spoke)\n'
         printf '  https://github.com/StarLeG/wg-admin-bash\n'
+        printf '  Автор: ИП Старинский Олег Григорьевич\n'
+        printf '  УНП: 391567102\n'
+        printf '  Сайт: https://electroman.by/\n'
+        printf '  Telegram: https://t.me/electroman_industry\n'
+        printf '  E-mail: info@electroman.by\n'
+        printf '  Телефон: +375 (29) 714-28-82\n'
         ;;
       3)
         printf '  MIT License\n'

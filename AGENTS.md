@@ -54,11 +54,11 @@ wsl -d Ubuntu-24.04 -- shellcheck /mnt/d/VPN/wg-admin.sh
 
 ## Git
 
-- Remote `origin`: `https://github.com/StarLeG/wg-admin-bash.git`, branch `main`
-  tracks `origin/main`. Plain `git push` works via Windows Git Credential Manager.
-- **Do not switch origin to the SSH URL** (`git@github.com:...`): SSH to
-  github.com:22 is blocked on this network, and `ssh.github.com:443` rejects the
-  local key (`Permission denied (publickey)`). HTTPS is the working path.
+- Remote `origin`: `git@github.com:StarLeG/wg-admin-bash.git`, branch `main`
+  tracks `origin/main`. SSH is authenticated as user `StarLeG`.
+- **SSH to github.com:22 is blocked on this network.** `~/.ssh/config` has a
+  `Host github.com` entry that routes through `ssh.github.com:443` — keep it.
+  HTTPS (Git Credential Manager) also works as a fallback.
 - Branch from `main`, never commit feature work directly to it. Branch names:
   `<type>/<kebab-case>`, e.g. `feat/add-client-menu`, `fix/expiry-restore`.
 - Commits follow Conventional Commits: type/scope in English, description and
